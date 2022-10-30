@@ -1,3 +1,6 @@
 #include "Ship.h"
+using namespace std;
 
-Ship::~Ship() {}
+Ship::~Ship() {
+	cout << "Вызван деструктор Ship" << endl;
+}
