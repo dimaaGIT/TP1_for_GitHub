@@ -1,20 +1,18 @@
 #pragma once
 #include "Ship.h"
-#include <string>
 using namespace std;
 
 class Speedboat : public Ship {
 public:
 	Speedboat();
-	Speedboat(string purpose, string hull_material, string driving_characteristics, string speed, string number_of_people);
-	void save_to_file() = 0;
-	void read_from_file() = 0;
-	void show() = 0;
-	~Speedboat();
+	Speedboat(string purpose, string hullMaterial, string drivingCharacteristics, string speed, string numberOfPeople);
+	void saveToFile(ofstream& out);
+	void readFromFile(ifstream& in);
+	void show();
 private:
 	string purpose;
-	string hull_material;
-	string driving_characteristics;
+	string hullMaterial;
+	string drivingCharacteristics;
 	string speed;
-	string number_of_people;
+	string numberOfPeople;
 };
