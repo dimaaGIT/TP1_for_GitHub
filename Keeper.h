@@ -5,14 +5,14 @@
 #include "Speedboat.h"
 #include <fstream>
 using namespace std;
-
 class Keeper {
 public:
 	Keeper();
 	void saveToFile();
 	void readFromFile();
 	void add(Ship* item);
-	Ship* operator[](size_t i);
+	bool edit(size_t i, Ship* item);
+	void show();
 	void pop();
 	~Keeper();
 private:

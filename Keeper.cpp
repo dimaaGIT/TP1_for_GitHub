@@ -1,11 +1,9 @@
 #include "Keeper.h"
 using namespace std;
-
 Keeper::Keeper() {
 	cout << "Вызван конструктор Keeper по умолчанию" << endl;
 	first = nullptr;
 }
-
 Keeper::~Keeper() {
 	cout << "Вызван деструктор Keeper" << endl;
 	while (first != nullptr) {
@@ -15,10 +13,8 @@ Keeper::~Keeper() {
 		delete now;
 	}
 }
-
 void Keeper::saveToFile() {
 	ofstream fout;
-
 	try {
 		openFileToSave(fout);
 		KeeperItem* now = first;
@@ -30,10 +26,10 @@ void Keeper::saveToFile() {
 		fout.close();
 	}
 	catch (const exception& ex) {
-		cout << "Возникла ошибка!\n Информация об ошибке: " << ex.what() << endl;
+		cout << "Возникла ошибка!\n Информация об ошибке: " << ex.what() <<
+			endl;
 	}
 }
-
 void Keeper::readFromFile() {
 	while (first != nullptr) {
 		KeeperItem* now = first;
@@ -42,9 +38,7 @@ void Keeper::readFromFile() {
 		delete now;
 	}
 	first = nullptr;
-
 	ifstream fin;
-
 	try {
 		openFileToRead(fin);
 		if (!fin.eof()) {
@@ -57,43 +51,43 @@ void Keeper::readFromFile() {
 			else if (data == "Парусник:") {
 				first = new KeeperItem(new Sailboat, nullptr);
 				first->getItem()->readFromFile(fin);
-
 			}
-			else {
+			else if (data == "Катер:") {
 				first = new KeeperItem(new Speedboat, nullptr);
 				first->getItem()->readFromFile(fin);
 			}
-
 			if (first != nullptr) {
 				KeeperItem* now = first;
 				getline(fin, data);
 				while (!fin.eof()) {
 					getline(fin, data);
 					if (data == "Подводная лодка:") {
-						now->setNext(new KeeperItem(new Submarine, nullptr));
+						now->setNext(new KeeperItem(new Submarine,
+							nullptr));
 						now->getNext()->getItem()->readFromFile(fin);
 					}
 					else if (data == "Парусник:") {
-						now->setNext(new KeeperItem(new Sailboat, nullptr));
+						now->setNext(new KeeperItem(new Sailboat,
+							nullptr));
 						now->getNext()->getItem()->readFromFile(fin);
 					}
-					else {
-						now->setNext(new KeeperItem(new Speedboat, nullptr));
+					else if (data == "Катер:") {
+						now->setNext(new KeeperItem(new Speedboat,
+							nullptr));
 						now->getNext()->getItem()->readFromFile(fin);
 					}
 					getline(fin, data);
 					now = now->getNext();
 				}
 			}
-
 		}
 		fin.close();
 	}
 	catch (const exception& ex) {
-		cout << "Возникла ошибка!\n Информация об ошибке: " << ex.what() << endl;
+		cout << "Возникла ошибка!\n Информация об ошибке: " << ex.what() <<
+			endl;
 	}
 }
-
 void Keeper::add(Ship* item) {
 	if (first != nullptr) {
 		KeeperItem* now = first;
@@ -106,52 +100,62 @@ void Keeper::add(Ship* item) {
 		first = new KeeperItem(item, nullptr);
 	}
 }
-
-Ship* Keeper::operator[](size_t i) {
+bool Keeper::edit(size_t i, Ship* item) {
 	if (first != nullptr) {
 		KeeperItem* now = first;
 		size_t max_i = 0;
-
 		while (now->getNext() != nullptr) {
 			now = now->getNext();
 			max_i++;
 		}
-
 		if (max_i >= i) {
 			now = first;
 			while (i != 0) {
 				now = now->getNext();
 				--i;
 			}
-			return now->getItem();
+			delete now->getItem();
+			now->setItem(item);
+			return true;
 		}
 		else {
-			return nullptr;
+			return false;
 		}
 	}
 	else {
-		return nullptr;
+		return false;
 	}
 }
-
+void Keeper::show() {
+	KeeperItem* now = first;
+	while (now != nullptr) {
+		now->getItem()->show();
+		cout << "\n";
+		now = now->getNext();
+	}
+}
 void Keeper::pop() {
-	if (first != nullptr) {
+	if (first != nullptr && first->getNext() != nullptr) {
 		KeeperItem* now = first;
-		while (now->getNext() != nullptr) {
+		while (now->getNext()->getNext() != nullptr) {
 			now = now->getNext();
 		}
+		delete now->getNext()->getItem();
 		delete now->getNext();
-		delete now;
+		now->setNext(nullptr);
+	}
+	else if (first != nullptr) {
+		delete first->getItem();
+		delete first;
+		first = nullptr;
 	}
 }
-
 void Keeper::openFileToSave(ofstream& out) {
 	out.open("File.txt");
 	if (!out.is_open()) {
 		throw exception("Не удалось открыть файл для сохранения!");
 	}
 }
-
 void Keeper::openFileToRead(ifstream& in) {
 	in.open("File.txt");
 	if (!in.is_open()) {

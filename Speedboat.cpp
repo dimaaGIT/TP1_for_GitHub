@@ -1,15 +1,13 @@
 #include "Speedboat.h"
 using namespace std;
-
 void Speedboat::saveToFile(ofstream& out) {
 	out << "Катер:\n"
 		<< "Назначение: " << this->purpose << "\n"
 		<< "Материал корпуса: " << this->hullMaterial << "\n"
 		<< "Ходовые качества: " << this->drivingCharacteristics << "\n"
 		<< "Скорость: " << this->speed << "\n"
-		<< "Количество людей, которые могут находится на борту: " << this->numberOfPeople << "\n";
+		<< "Количество людей, которые могут находится на борту: " << this -> numberOfPeople << "\n";
 }
-
 void Speedboat::readFromFile(ifstream& in) {
 	std::string data;
 	in >> data;
@@ -46,7 +44,8 @@ Speedboat::Speedboat() {
 	numberOfPeople = "Не задано";
 }
 
-Speedboat::Speedboat(string purpose, string hullMaterial, string drivingCharacteristics, string speed, string numberOfPeople) {
+Speedboat::Speedboat(string purpose, string hullMaterial, string
+	drivingCharacteristics, string speed, string numberOfPeople) {
 	cout << "Вызван конструктор Speedboat от пяти параметров" << endl;
 	this->purpose = purpose;
 	this->hullMaterial = hullMaterial;

@@ -48,7 +48,8 @@ Sailboat::Sailboat() {
 	crew = "Не задано";
 }
 
-Sailboat::Sailboat(string type, string name, string peaceful, string hullLength, string speed, string crew) {
+Sailboat::Sailboat(string type, string name, string peaceful, string hullLength,
+	string speed, string crew) {
 	cout << "Вызван конструктор Sailboat от шести параметров" << endl;
 	this->type = type;
 	this->name = name;

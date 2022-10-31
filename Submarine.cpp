@@ -56,7 +56,9 @@ Submarine::Submarine() {
 	armament = "Не задано";
 }
 
-Submarine::Submarine(string length, string width, string crew, string stayUnderWater, string minUnderwaterSpeed, string maxUnderwaterSpeed, string armament) {
+Submarine::Submarine(string length, string width, string crew, string
+	stayUnderWater, string minUnderwaterSpeed, string maxUnderwaterSpeed, string
+	armament) {
 	cout << "Вызван конструктор Submarine от семи параметров" << endl;
 	this->length = length;
 	this->width = width;
